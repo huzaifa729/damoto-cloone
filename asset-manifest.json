@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/damota-cloone/static/css/main.86761f08.css",
+    "main.js": "/damota-cloone/static/js/main.e5f9f3e4.js",
+    "index.html": "/damota-cloone/index.html",
+    "main.86761f08.css.map": "/damota-cloone/static/css/main.86761f08.css.map",
+    "main.e5f9f3e4.js.map": "/damota-cloone/static/js/main.e5f9f3e4.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.86761f08.css",
+    "static/js/main.e5f9f3e4.js"
+  ]
+}
