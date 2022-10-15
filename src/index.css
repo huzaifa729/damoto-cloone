@@ -1,0 +1,22 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body{
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    /* background-color: #181a2a; */
+   background-color: black;
+   color: rgba(245, 245, 245, 0.904);
+}
+
+html,
+body{
+    scroll-behavior: smooth;
+
+}
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
