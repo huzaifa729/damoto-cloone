@@ -7,9 +7,37 @@ import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
 import { MdShoppingBasket } from "react-icons/md";
 import { Avatar } from '@mui/material';
 import { motion } from 'framer-motion';
+import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+import { app } from '../firebase.config';
+import { useStateValue } from '../context/StateProvider';
+import { actionType } from '../context/reducer';
+
 
 
 const Header = () => {
+
+  const firebaseAuth = getAuth(app);
+
+  const provider = new GoogleAuthProvider();
+
+  const [{user}, dispatch] = useStateValue();
+
+  const login = async () => {
+
+    const {user : {refreshToken, providerData}} = await signInWithPopup( firebaseAuth, provider );
+
+    dispatch({
+      type : actionType.SET_USER,
+      user : providerData[0],
+    });
+
+    localStorage.setItem("user", JSON.stringify(providerData[0]));
+
+
+  
+
+  }
+
   return (
     <div className="header sticky">
       <div className='flex  mt-1 ml-5 items-center justify-between'>
@@ -36,8 +64,8 @@ const Header = () => {
           </div> 
    </div>
 
-   <div className='avatar mr-12 -mt-2'>
-    <Avatar fontSize='small'/>
+   <div className='avatar mr-12 -mt-2 cursor-pointer relative'>
+    <Avatar src={user ? user.photoURL : Avatar} onClick={login} fontSize='small'/>
    </div>
 
    </div>
