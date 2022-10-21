@@ -11,7 +11,7 @@ const App = () => {
     <div className="star">
       <Header/>
 
-      <main className='mt-24 p-8 w-full'>
+      <main className='-mt-5 p-8 w-full'>
         <Routes>
           <Route path='/*' element={<MainContainer/>}/>
           <Route path='/createItem' element={<CereateContainer/>}/>

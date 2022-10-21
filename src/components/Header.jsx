@@ -79,11 +79,11 @@ const logout = () =>{
           </div> 
    </div>
 
-   <div className='avatar mr-12 -mt-2 cursor-pointer  relative'>
+   <div className='avatar mr-12 -mt-2 cursor-pointer  relative  '>
     <Avatar src={user ? user.photoURL : Avatar} onClick={login} fontSize='small'/>
    {
     isMenu && (
-      <motion.div initial={{opacity:0, scale:0.6}} animate={{opacity:1, scale:1}} exit={{opacity:0, scale:0.6}}  className=" absolute w-72 shadow-xl rounded-lg bg-gray-900 flex flex-col right-0 top-11 ">
+      <motion.div initial={{opacity:0, scale:0.6}} animate={{opacity:1, scale:1}} exit={{opacity:0, scale:0.6}}  className=" absolute w-72 shadow-xl rounded-lg bg-gray-900 flex flex-col  z-50 opacity-50 right-0 top-11  ">
 
       <p className="flex  items-center px-4 py-2 text-lg text-white-900 gap-3 cursor-pointer border-b-4 border-gray-500">Email:- {user.email}</p>
 
