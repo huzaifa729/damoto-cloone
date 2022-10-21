@@ -7,7 +7,7 @@ import { AnimatePresence } from 'framer-motion';
 
 const App = () => {
   return (
-    <AnimatePresence>
+    <AnimatePresence exitBeforeEnter>
     <div className="star">
       <Header/>
 

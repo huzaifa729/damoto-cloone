@@ -4,13 +4,16 @@ import HomeIcon from '@mui/icons-material/Home';
 import ContrastIcon from '@mui/icons-material/Contrast';
 import PhoneIcon from '@mui/icons-material/Phone';
 import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
-import { MdShoppingBasket } from "react-icons/md";
+import { MdShoppingBasket, MdAdd, MdLogout, MdSettings, MdAccountBalance, MdReport, MdCall } from "react-icons/md";
 import { Avatar } from '@mui/material';
 import { motion } from 'framer-motion';
 import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 import { app } from '../firebase.config';
 import { useStateValue } from '../context/StateProvider';
 import { actionType } from '../context/reducer';
+import { Link } from 'react-router-dom';
+import { useState } from 'react';
+
 
 
 
@@ -22,21 +25,33 @@ const Header = () => {
 
   const [{user}, dispatch] = useStateValue();
 
+  const [isMenu, setIsMenu] = useState();
+
   const login = async () => {
 
-    const {user : {refreshToken, providerData}} = await signInWithPopup( firebaseAuth, provider );
+ if(!user){
+  const {user : {refreshToken, providerData}} = await signInWithPopup( firebaseAuth, provider );
 
-    dispatch({
-      type : actionType.SET_USER,
-      user : providerData[0],
-    });
+  dispatch({
+    type : actionType.SET_USER,
+    user : providerData[0],
+  });
 
-    localStorage.setItem("user", JSON.stringify(providerData[0]));
+  localStorage.setItem("user", JSON.stringify(providerData[0]));
+ }else{
+  setIsMenu(!isMenu);
+ }
+};
 
+const logout = () =>{
+  setIsMenu(false)
+  localStorage.clear()
 
-  
-
-  }
+  dispatch({
+    type : actionType.SET_USER,
+    user : null,
+  });
+}
 
   return (
     <div className="header sticky">
@@ -64,8 +79,38 @@ const Header = () => {
           </div> 
    </div>
 
-   <div className='avatar mr-12 -mt-2 cursor-pointer relative'>
+   <div className='avatar mr-12 -mt-2 cursor-pointer  relative'>
     <Avatar src={user ? user.photoURL : Avatar} onClick={login} fontSize='small'/>
+   {
+    isMenu && (
+      <motion.div initial={{opacity:0, scale:0.6}} animate={{opacity:1, scale:1}} exit={{opacity:0, scale:0.6}}  className=" absolute w-72 shadow-xl rounded-lg bg-gray-900 flex flex-col right-0 top-11 ">
+
+      <p className="flex  items-center px-4 py-2 text-lg text-white-900 gap-3 cursor-pointer border-b-4 border-gray-500">Email:- {user.email}</p>
+
+      <p className="flex items-center text-xl px-4 py-2 text-white-900 gap-3 cursor-pointer border-b-4 border-gray-500">Name:- {user.displayName}</p>
+
+      {
+       user && user.email === "huzaifadabir10@gmail.com" && (
+      
+         <Link to={'/createItem'}>
+         <p className="flex items-center text-xl px-4 py-2 text-white-900 gap-3 cursor-pointer border-b-4 border-gray-500">New Item <MdAdd/></p>
+         </Link>
+       )
+      }
+
+       <p className="flex items-center text-xl px-4 py-2 text-white-900 gap-3 border-b-4 border-gray-500 cursor-pointer ">Setting<MdSettings/></p>
+
+       <p className="flex items-center text-xl px-4 py-2 text-white-900 gap-3 border-b-4 border-gray-500  cursor-pointer ">Bank & Autopay<MdAccountBalance/></p>
+
+       <p className="flex items-center text-xl px-4 py-2 text-white-900 gap-3 border-b-4 border-gray-500  cursor-pointer ">Reports<MdReport/></p>
+
+       <p className="flex items-center text-xl px-4 py-2 text-white-900 gap-3 border-b-4 border-gray-500  cursor-pointer ">Help & Support<MdCall/></p>
+
+       <p className="flex items-center text-xl px-4 py-2 text-white-900 gap-3" onClick={logout}>Logout <MdLogout/></p>
+ 
+     </motion.div>
+    )
+   }
    </div>
 
    </div>
