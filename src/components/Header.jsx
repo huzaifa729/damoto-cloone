@@ -63,11 +63,11 @@ const logout = () =>{
 
    <div className='ul -ml-12 m-7 '>
     <ul className="flex space-x-4 p-2">
-      <li className='text-teal-50 font-serif text-xl mt-1 tracking-wide hover:text-orange-400 ease-in-out duration-1000  cursor-pointer'><HomeIcon fontSize='small' className="-mt-1 mr-1"/>Home
+      <li className='text-teal-50 font-serif text-xl mt-1 tracking-wide hover:text-orange-400 ease-in-out duration-1000  cursor-pointer'><HomeIcon fontSize='small' className="-mt-1 mr-1"  onClick={() => setIsMenu(false)}/>Home
       </li>
-      <li className='text-teal-50 font-serif text-xl mt-1 tracking-wide hover:text-orange-400 ease-in-out duration-1000 cursor-pointer'><ContrastIcon fontSize='small'  className="-mt-1 mr-1"/>About</li>
-      <li className='text-teal-50 font-serif text-xl mt-1 tracking-wide hover:text-orange-400 ease-in-out duration-1000 cursor-pointer'><PhoneIcon fontSize='small'  className="-mt-1 mr-1"/>Contact</li>
-      <li className='text-teal-50 font-serif text-xl mt-1 tracking-wide hover:text-orange-400 ease-in-out duration-1000 cursor-pointer'><AccountBalanceWalletIcon fontSize='small' className="-mt-1 mr-1"/>Account</li>
+      <li className='text-teal-50 font-serif text-xl mt-1 tracking-wide hover:text-orange-400 ease-in-out duration-1000 cursor-pointer'><ContrastIcon fontSize='small'  className="-mt-1 mr-1" onClick={() => setIsMenu(false)}/>About</li>
+      <li className='text-teal-50 font-serif text-xl mt-1 tracking-wide hover:text-orange-400 ease-in-out duration-1000 cursor-pointer'><PhoneIcon fontSize='small'  className="-mt-1 mr-1" onClick={() => setIsMenu(false)}/>Contact</li>
+      <li className='text-teal-50 font-serif text-xl mt-1 tracking-wide hover:text-orange-400 ease-in-out duration-1000 cursor-pointer'><AccountBalanceWalletIcon fontSize='small' className="-mt-1 mr-1" onClick={() => setIsMenu(false)}/>Account</li>
     </ul>
    </div>
 
@@ -93,7 +93,7 @@ const logout = () =>{
        user && user.email === "huzaifadabir10@gmail.com" && (
       
          <Link to={'/createItem'}>
-         <p className="flex items-center text-xl px-4 py-2 text-white-900 gap-3 cursor-pointer border-b-4 border-gray-500">New Item <MdAdd/></p>
+         <p className="flex items-center text-xl px-4 py-2 text-white-900 gap-3 cursor-pointer border-b-4 border-gray-500" onClick={() => setIsMenu(false)}>New Item <MdAdd/></p>
          </Link>
        )
       }
