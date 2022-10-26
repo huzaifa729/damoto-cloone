@@ -3,8 +3,10 @@ import { MdDelete, MdFastfood, MdCloudUpload, MdFoodBank, MdAttachMoney } from "
 import { motion } from "framer-motion";
 import { categories } from "../utilis/Data";
 import Loader from "./Loader";
-import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
+import { deleteObject, getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import { storage } from "../firebase.config";
+import { saveItem } from "../utilis/firebaseFunction";
+
 
 const CereateContainer = () => {
   const [title, setTitle] = useState("");
@@ -51,9 +53,74 @@ const CereateContainer = () => {
     })
   };
 
-  const deleteImage = () => {};
+  const deleteImage = () => {
+    setIsLoading(true);
+    const deleteRef = ref(storage, imageAsset);
+    deleteObject(deleteRef).then(()=>{
+      setImageAsset(null);
+      setIsLoading(false);
+      setFields(true);
+      setMsg('Image deleted 😎 successfully ');
+      setAlertStatus('success');
+      setTimeout(() => {
+        setFields(false);
+      }, 4000);
+    })
+  };
 
-  const saveDetails = () => {};
+  const saveDetails = () => {
+    setIsLoading(true);
+    try {
+      if((!title || !calories || !imageAsset || !price || !categories)){
+      setFields(true);
+      setAlertStatus('danger')
+      setMsg('Required fields can"t be empty')
+      setTimeout(() => {
+        setFields(false);
+        setIsLoading(false);
+      }, 4000);
+
+      }else{
+        const data = {
+          id : `${Date.now()}`,
+          title : title,
+          imageURL : imageAsset,
+          category : category,
+          calories : calories,
+          qty : 1,
+          price : price,
+        }
+        saveItem(data);
+        setIsLoading(false);
+        setFields(true);
+        setMsg('Data uploaded successfully 😉');
+        clearData();
+        setAlertStatus('success');
+        setTimeout(() => {
+          setFields(false);
+        }, 4000);
+      }
+      
+    } catch (error) {
+      console.log(error);
+      setFields(true);
+      setAlertStatus('danger')
+      setMsg('Error while uploading : Try Again 👹')
+      setTimeout(() => {
+        setFields(false);
+        setIsLoading(false);
+      }, 4000);
+      
+    }
+  };
+
+  const clearData = () => {
+    setTitle("");
+    setImageAsset(null);
+    setCalories("");
+    setPrice("");
+    setCategory("Select Category");
+  }
 
   return (
     <div className="w-full h-auto flex items-center justify-center">
