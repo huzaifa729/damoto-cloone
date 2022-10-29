@@ -6,7 +6,9 @@ import Loader from "./Loader";
 import { deleteObject, getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import { storage } from "../firebase.config";
 import { saveItem } from "../utilis/firebaseFunction";
-
+ import { useStateValue } from '../context/StateProvider';
+import { getAllFoodItems } from '../utilis/firebaseFunction';
+import { actionType } from '../context/reducer';
 
 const CereateContainer = () => {
   const [title, setTitle] = useState("");
@@ -18,6 +20,8 @@ const CereateContainer = () => {
   const [alertStatus, setAlertStatus] = useState("danger");
   const [msg, setMsg] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [{foodItems}, dispatch] = useStateValue();
+ 
 
   const uploadImage = (e) => {
     setIsLoading(true);
@@ -26,6 +30,8 @@ const CereateContainer = () => {
     const storageRef = ref(storage, `Images/${Date.now()}-${imageFile.name}`);
 
     const uploadTask = uploadBytesResumable(storageRef, imageFile);
+
+   
 
     uploadTask.on('state_changed', (snapshot) => {
       const uploadProgress = (snapshot.bytesTransferred / snapshot.totalBytes)*100
@@ -112,6 +118,8 @@ const CereateContainer = () => {
       }, 4000);
       
     }
+
+    fetchData();
   };
 
   const clearData = () => {
@@ -120,7 +128,17 @@ const CereateContainer = () => {
     setCalories("");
     setPrice("");
     setCategory("Select Category");
-  }
+  };
+
+  const fetchData = async () => {
+    await getAllFoodItems().then(data => {
+      // console.log(data);
+      dispatch({
+        type : actionType.SET_FOOD_ITEMS,
+        foodItems : data,
+      });
+    });
+  };
 
   return (
     <div className="w-full h-auto flex items-center justify-center">
