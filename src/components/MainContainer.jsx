@@ -4,8 +4,10 @@ import HomeContainer from './HomeContainer';
 import { motion } from 'framer-motion';
 import { MdChevronLeft, MdChevronRight } from 'react-icons/md';
 import RowContainer from './RowContainer';
+import { useStateValue } from '../context/StateProvider';
 
 const MainContainer = () => {
+  const [{foodItems}, dispatch] = useStateValue();
   return (
    <div>
     <HomeContainer/>
@@ -29,7 +31,7 @@ const MainContainer = () => {
 
       </div>
 
-      <RowContainer flag={true}/>
+      <RowContainer flag={true} data={foodItems?.filter(n => n.category === "icecream")} />
 
     </section>
     </div>
