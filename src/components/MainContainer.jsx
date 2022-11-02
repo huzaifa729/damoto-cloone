@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useRef } from 'react'
 import HomeContainer from './HomeContainer';
 // import 'tw-elements';
 import { motion } from 'framer-motion';
@@ -8,6 +8,17 @@ import { useStateValue } from '../context/StateProvider';
 
 const MainContainer = () => {
   const [{foodItems}, dispatch] = useStateValue();
+
+  const [scrollValue, setScrollValue] = useStateValue();
+
+  // const rowContainerRef = useRef();
+
+  // const scroll = (scrolloffset) => {
+  //   // rowContainerRef.current.scrollLeft += scrolloffset
+  // }
+
+  useEffect(() => {}, [scrollValue])
+
   return (
    <div>
     <HomeContainer/>
@@ -19,11 +30,11 @@ const MainContainer = () => {
 
         <div className="hidden items-center gap-3 md:flex">
 
-          <motion.div whileTap={{scale : 0.75}} className='w-8 h-8 bg-green-300 rounded-sm items-center justify-center flex cursor-pointer'>
+          <motion.div whileTap={{scale : 0.75}} className='w-8 h-8 bg-green-300 rounded-sm items-center justify-center flex cursor-pointer' onClick={() => setScrollValue(-200)}>
             <MdChevronLeft className="text-2xl text-black"/>
           </motion.div>
 
-          <motion.div whileTap={{scale : 0.75}} className='w-8 h-8 bg-green-300 rounded-sm items-center justify-center flex cursor-pointer'>
+          <motion.div whileTap={{scale : 0.75}} className='w-8 h-8 bg-green-300 rounded-sm items-center justify-center flex cursor-pointer' onClick={() => setScrollValue(200)}>
             <MdChevronRight className="text-2xl text-black"/>
           </motion.div>
    
@@ -31,7 +42,7 @@ const MainContainer = () => {
 
       </div>
 
-      <RowContainer flag={true} data={foodItems?.filter(n => n.category === "icecream")} />
+      <RowContainer scrollValue={scrollValue} flag={true} data={foodItems?.filter(n => n.category === "icecream")} />
 
     </section>
     </div>
