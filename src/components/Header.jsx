@@ -23,7 +23,7 @@ const Header = () => {
 
   const provider = new GoogleAuthProvider();
 
-  const [{user}, dispatch] = useStateValue();
+  const [{user, cartShow, cartItems}, dispatch] = useStateValue();
 
   const [isMenu, setIsMenu] = useState();
 
@@ -51,7 +51,14 @@ const logout = () =>{
     type : actionType.SET_USER,
     user : null,
   });
-}
+};
+
+ const showCart = () => {
+  dispatch({
+    type : actionType.SET_CART_SHOW,
+    cartShow : !cartShow,
+  });
+ };
 
   return (
     <div className="header sticky">
@@ -71,12 +78,14 @@ const logout = () =>{
     </ul>
    </div>
 
-<div className='flex'>
-   <div className="relative flex items-center justify-center -mt-0">
+
+   <div className="relative flex items-center justify-center" onClick={showCart}>
    <MdShoppingBasket className="text-textColor text-2xl  cursor-pointer -ml-20"/>
-   <div className='absolute -top-3 right-4 w-5 h-5 rounded-full bg-red-600 flex items-center justify-center'>
-            <p className='text-xs text-white font-semibold'>0</p>    
-          </div> 
+  {cartItems && cartItems.length > 0  &&(
+     <div className='absolute -top-3 right-4 w-5 h-5 rounded-full bg-red-600 flex items-center justify-center'>
+     <p className='text-xs text-white font-semibold'>{cartItems.length}</p>    
+   </div> 
+  )}
    </div>
 
    <div className='avatar mr-12 -mt-2 cursor-pointer  relative  '>
@@ -115,7 +124,7 @@ const logout = () =>{
 
    </div>
   </div>
-</div>
+// </div>
   )
 }
 

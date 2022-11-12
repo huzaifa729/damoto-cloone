@@ -6,11 +6,14 @@ import { MdChevronLeft, MdChevronRight } from 'react-icons/md';
 import RowContainer from './RowContainer';
 import { useStateValue } from '../context/StateProvider';
 import MenuContainer from './MenuContainer';
+import CartContainer from './CartContainer';
 
 const MainContainer = () => {
-  const [{foodItems}, dispatch] = useStateValue();
+  const [{foodItems, cartShow}, dispatch] = useStateValue();
 
   const [scrollValue, setScrollValue] = useStateValue();
+
+  
 
   // const rowContainerRef = useRef();
 
@@ -18,7 +21,7 @@ const MainContainer = () => {
   //   // rowContainerRef.current.scrollLeft += scrolloffset
   // }
 
-  useEffect(() => {}, [scrollValue])
+  useEffect(() => {}, [scrollValue, cartShow])
 
   return (
    <div>
@@ -48,6 +51,10 @@ const MainContainer = () => {
     </section>
 
    <MenuContainer/>
+
+    {cartShow && (
+      <CartContainer/>
+    )}
     </div>
   
   )
