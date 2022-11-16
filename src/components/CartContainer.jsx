@@ -2,12 +2,12 @@ import React from 'react';
 import { MdOutlineKeyboardBackspace } from 'react-icons/md';
 import { motion } from 'framer-motion';
 import {RiRefreshFill} from 'react-icons/ri';
-import {BiMinus, BiPlus} from 'react-icons/bi'
 import { useStateValue } from '../context/StateProvider';
 import { actionType } from '../context/reducer';
-
+import  EmptyCart from "../img/emptyCart.svg";
+import CartItem from './CartItem';
 const CartContainer = () => {
-  const [{cartShow}, dispatch] = useStateValue();
+  const [{cartShow, cartItems, user}, dispatch] = useStateValue();
 
   const showCart = () => {
     dispatch({
@@ -31,27 +31,16 @@ const CartContainer = () => {
 
 {/* bottom Section */}
 
+{ cartItems && cartItems.length > 0 ? (
+
 
       <div className='w-full h-full flex flex-col'>
         <div className='w-full h-340 md:h-42 px-6 py-10 flex flex-col gap-3 overflow-y-scroll scrollbar-none'>
-          <div className='w-full p-1 px-2 rounded-md bg-slate-800  flex items-center gap-2'>
-           <img src="https://firebasestorage.googleapis.com/v0/b/damota-app.appspot.com/o/Images%2F1667107353162-i1.png?alt=media&token=3b1afcd2-e1f9-44cb-b731-3cf54517774e" alt="img" className="w-24 h-24 object-contain"/>
-
-           <div className='flex flex-col gap-2'>
-            <p className='text-white font-serif'>Chocolate Vanilla</p>
-            <p className='text-white font-serif text-xl tracking-wider'>$9.2</p>
-           </div>
-
-           <div className='group flex items-center gap-2 cursor-pointer ml-auto'>
-             <motion.div whileTap={{scale : 0.75}}>
-              <BiMinus className="text-white text-xl"/>
-             </motion.div>
-             <p className=' font-sans items-center flex justify-center rounded-sm'>1</p>
-             <motion.div whileTap={{scale : 0.75}}>
-             <BiPlus className="text-white text-xl"/>
-             </motion.div>
-           </div>
-          </div>
+          {
+            cartItems && cartItems.map(item => (
+             <CartItem key={item?.id} item={item}/>
+            ))
+          }
         </div>
 
         {/* cart total section */}
@@ -74,10 +63,22 @@ const CartContainer = () => {
           <p className='text-white font-serif text-xl'>$ 8.6</p>
           </div>
 
-          <motion.button whileTap={{scale : 0.7}} type="button" className='w-full py-2 my-8 bg-gray-700 text-white text-xl font-sans tracking-widest rounded-md'>Check Out</motion.button>
+          {user ? (
+            <motion.button whileTap={{scale : 0.7}} type="button" className='w-full py-2 my-8 bg-gray-700 text-white text-xl font-sans tracking-widest rounded-md'>Check Out</motion.button>
+          ) : (
+            <motion.button whileTap={{scale : 0.7}} type="button" className='w-full py-2 my-8 bg-gray-700 text-white text-xl font-sans tracking-widest rounded-md'>Login to check out</motion.button>
+          )}
         </div>
       </div>
+       ):(
+        <div className='w-full h-full flex flex-col items-center justify-center gap-6'>
+          <img src={EmptyCart} className="300" alt='imj'/>
+          <p className='text-2xl text-white font-serif'>Add some item to your cart</p>
+        </div>
+       )}
     </div>
+
+   
   )
 }
 
